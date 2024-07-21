@@ -14,12 +14,12 @@ export async function POST(request){
         //check if user exists
         const user = await User.findOne({username : name})
         if(!user){
-            return NextResponse.json({message: "User does not exist"}, {status: 400})
+            return NextResponse.json({error: "User does not exist"}, {status: 400})
         }
         
         //check if password is correct
         if(user?.password !== password){
-            return NextResponse.json({message: "Invalid password"}, {status: 400})
+            return NextResponse.json({error: "Invalid password"}, {status: 400})
         }
 
         const tokenData = {

@@ -6,6 +6,9 @@ import { DialogSizes } from "../movie_upload_dialog";
 import { fetchDataFromApi } from "@/utils/fetchData";
 import MovieListCard from "../movie_list_card";
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const tablist = [
     {
@@ -29,13 +32,25 @@ const TabsCustomAnimation = ({params}) => {
   const [page, setPage] = React.useState(1);
   const [dialog, setDialog] = useState(false);
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const [name, setName] = useState("")
 
   const fetchData = async () => {
     const response = await fetchDataFromApi('/api/movies_list', {page, activeTab, category : params.category});
     setData(response);
-
-
   }
+
+  const searchMovie = async () => {
+    console.log(name)
+    if(name?.length > 0) {
+      const response = await fetchDataFromApi('/api/search_movie', {name});
+      setData(response);
+    }else{
+      fetchData();
+    }
+  }
+
 
   useEffect(() => {
     fetchData();
@@ -44,6 +59,7 @@ const TabsCustomAnimation = ({params}) => {
 
     return (
         <Tabs value={activeTab}>
+          <ToastContainer/>
         <TabsHeader
           className="rounded-none border-b border-blue-gray-50 bg-transparent pt-2"
           indicatorProps={{
@@ -76,7 +92,8 @@ const TabsCustomAnimation = ({params}) => {
                     <div className="col-span-5">
                       <Input
                         label="Search"
-                        icon={<MagnifyingGlassIcon className="h-5" />}
+                        icon={<MagnifyingGlassIcon className="h-5" onClick={searchMovie}/>}
+                        onChange={(e) => setName(e.target.value)}
                       />
                     </div>
 
@@ -100,10 +117,10 @@ const TabsCustomAnimation = ({params}) => {
 
                   </div>
                 </CardHeader>
-                <CardBody className=" px-[10px] py-0 flex flex-col gap-[10px] overflow-scroll table-height">
+                <CardBody className=" px-[10px] py-0 flex flex-col gap-[15px] overflow-scroll table-height">
                   {
                     data && data?.items?.map((row, index) => (
-                      <MovieListCard item={row} onClick={() => router.push(`/movie_details/${row?._id}`)} key={index}/>
+                      <MovieListCard item={row} onClick={() => router.push(`/movie_details/${row?._id}`)} key={index} />
                     ))
                   }
                 </CardBody>
