@@ -24,5 +24,6 @@ body {
 }
 
 .table-height {
-  height: calc(100svh - 100px);
+  height: calc(100svh - 110px);
+  padding-bottom: 100px;
 }
