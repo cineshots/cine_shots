@@ -2,7 +2,7 @@
 import ContentWrapper from '@/components/ContentWrapper';
 import React, { useEffect, useState } from 'react';
 import { fetchDataFromApi, getFormatedTime } from "@/utils/fetchData";
-import { Card, CardHeader, CardBody, Checkbox, Button, Input} from "@material-tailwind/react";
+import { Card, CardHeader, CardBody, Checkbox, Button, Input, Spinner} from "@material-tailwind/react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,8 +12,10 @@ const MovieDetails = ({params}) => {
     const [time, setTime] = useState ("");
     const [loading, setLoading] = useState(false);
     const fetchData = async () => {
+        setLoading(true);
         const response = await fetchDataFromApi('/api/movies_details', {id: params.id});
         setData(response?.items);
+        setLoading(false);
     }
 
     const changeMovieStatus = async (event, status, id) => {
@@ -48,6 +50,11 @@ const MovieDetails = ({params}) => {
     return (
         <ContentWrapper classname={'p-[10px]'}>
             <ToastContainer/>
+            {
+                loading ? (<div className="w-[100%] h-[100svh] absolute top-0 z-index-spinner flex items-center justify-center">
+                    <Spinner color="teal" className="" />
+                </div>) : null
+            }
             {
                 data ? (
                     <Card className="w-full flex-row px-[5px] relative bg-gray-50" variant="filled" color="#000" >

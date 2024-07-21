@@ -1,5 +1,5 @@
 
-import { Tabs, TabsHeader, TabsBody, Tab, TabPanel, Switch, Input, Card, CardHeader, CardBody, Typography, CardFooter, Button} from "@material-tailwind/react";
+import { Tabs, TabsHeader, TabsBody, Tab, TabPanel, Switch, Input, Card, CardHeader, CardBody, Typography, CardFooter, Button, Spinner} from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import { DialogSizes } from "../movie_upload_dialog";
@@ -37,7 +37,9 @@ const TabsCustomAnimation = ({params}) => {
   const [name, setName] = useState("")
 
   const fetchData = async () => {
+    setLoading(true);
     const response = await fetchDataFromApi('/api/movies_list', {page, activeTab, category : params.category});
+    setLoading(false);
     setData(response);
   }
 
@@ -60,6 +62,12 @@ const TabsCustomAnimation = ({params}) => {
     return (
         <Tabs value={activeTab}>
           <ToastContainer/>
+        {
+          loading ? (<div className="w-[100%] h-[100svh] absolute top-0 z-index-spinner flex items-center justify-center">
+            <Spinner color="teal" className="" />
+          </div>) : null
+        }
+
         <TabsHeader
           className="rounded-none border-b border-blue-gray-50 bg-transparent pt-2"
           indicatorProps={{

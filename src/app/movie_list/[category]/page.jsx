@@ -4,7 +4,7 @@ import TabsCustomAnimation from '@/components/movie_list_tab';
 import React from 'react';
 const MovieList = ({params}) => {
     return (
-        <ContentWrapper>
+        <ContentWrapper classname={'relative'}>
             <TabsCustomAnimation params={params}/>
         </ContentWrapper>
     )
