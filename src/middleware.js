@@ -34,8 +34,8 @@ export const config = {
     '/',
     '/login',
     '/movie_list/:path*',
-    '/api/home',
-    '/api/profile'
+    '/movie_details/:path*',
+
     
   ]
 };

@@ -47,3 +47,20 @@ export const getFormatedTime = (time, format) =>{
     const formattedDate = localDate.format(format);
     return formattedDate;
 }
+
+
+
+import jwt from "jsonwebtoken";
+
+export const getDataFromToken = (request) => {
+    try {
+        const token = request.cookies.get("token")?.value || '';
+        console.log( process.env.TOKEN_SECRET)
+        const decodedToken =  jwt.verify(token, process.env.TOKEN_SECRET);
+        return decodedToken;
+    } catch (error) {
+        console.log(error)
+        throw new Error(error.message);
+    }
+
+}

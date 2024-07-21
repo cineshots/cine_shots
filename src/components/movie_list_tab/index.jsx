@@ -44,13 +44,24 @@ const TabsCustomAnimation = ({params}) => {
   }
 
   const searchMovie = async () => {
-    console.log(name)
     if(name?.length > 0) {
       const response = await fetchDataFromApi('/api/search_movie', {name});
       setData(response);
     }else{
       fetchData();
     }
+  }
+
+  const deleteMovie = async (id) => {
+    setLoading(true);
+    const response = await fetchDataFromApi('/api/delete_movie', {id});
+    if(response?.success) {
+      toast.success(response?.message);
+      fetchData();
+    }else{
+      toast.error(response?.error)
+    }
+    setLoading(false);
   }
 
 
@@ -128,7 +139,7 @@ const TabsCustomAnimation = ({params}) => {
                 <CardBody className=" px-[10px] py-0 flex flex-col gap-[15px] overflow-scroll table-height">
                   {
                     data && data?.items?.map((row, index) => (
-                      <MovieListCard item={row} onClick={() => router.push(`/movie_details/${row?._id}`)} key={index} />
+                      <MovieListCard item={row} onClick={() => router.push(`/movie_details/${row?._id}`)} key={index} onclick2={() => deleteMovie(row?._id)}/>
                     ))
                   }
                 </CardBody>
