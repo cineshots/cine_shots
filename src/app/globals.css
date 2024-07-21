@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-y {
+  height: 100svh;
+  overflow-y: auto !important;
+}
+
+.app-main-content-wrapper {
+  /* background-color: black !important; */
+  width: 100vw;
+  max-width: 450px;
+  height: 100svh;
+  background: #fff;
+}
+
+.table-height {
+  height: calc(100svh - 100px);
+}
