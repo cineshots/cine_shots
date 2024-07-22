@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import  dbConnect  from "@/config/dbConfig";
 import { Movie} from "@/model";
 import jwt from "jsonwebtoken";
+import { getDataFromToken } from "@/utils/fetchData";
 
 dbConnect();
 

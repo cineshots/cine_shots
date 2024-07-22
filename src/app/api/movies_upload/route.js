@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import  dbConnect  from "@/config/dbConfig";
 import { Movie} from "@/model";
-import jwt from "jsonwebtoken";
+import { getDataFromToken } from "@/utils/fetchData";
 
 dbConnect();
 
@@ -18,12 +18,13 @@ export async function POST(request){
         if(movie){
             return NextResponse.json({error: "Movie already exist"}, {status: 400})
         }
-        
+        const userdata = await getDataFromToken(request);
+   
         const movieDetails = new Movie({
             banner : image,
             name : name, 
             Genres : genres,
-            uploader_name : "v",
+            uploader_name : userdata?.name,
             category
         })
         const createMovieDetails = await movieDetails.save();
